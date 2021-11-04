@@ -4,6 +4,7 @@ let boto = document.getElementById("guardar")
 let titol = document.getElementById("titol")
 
 let nomAnterior = JSON.parse( window.localStorage.getItem('nom'))
+
 if(nomAnterior != undefined){
     titol.innerHTML= "Hola " + nomAnterior.nom + " " + nomAnterior.cognom
 }
