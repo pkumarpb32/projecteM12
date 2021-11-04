@@ -1,6 +1,6 @@
 
-let boto = document.getElementById("add")
-let add_task = document.getElementById("addtask")
+let boto = document.getElementById("add");
+//let add_task = document.getElementById("addtask")
 
 
 
@@ -15,10 +15,9 @@ let add_task = document.getElementById("addtask")
 
 boto.addEventListener("click", ()=>{
 
-    add_task.style.display = "yes";
+    document.getElementById("addtask").style.display = "block";
 
-
-
+   
 
     // titol.innerHTML= "Hola " + nom.value + " " + cognom.value
     // let dada = {nom: nom.value, cognom: cognom.value}
