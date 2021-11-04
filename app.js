@@ -1,5 +1,5 @@
 
-let boto = document.getElementById("guardar")
+let boto = document.getElementById("add")
 
 
 
