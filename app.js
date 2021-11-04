@@ -1,10 +1,6 @@
 
 let boto = document.getElementById("add")
-
-
-
-
-
+let add_task = document.getElementById("addtask")
 
 
 
@@ -18,9 +14,15 @@ let boto = document.getElementById("add")
 
 
 boto.addEventListener("click", ()=>{
-    titol.innerHTML= "Hola " + nom.value + " " + cognom.value
-    let dada = {nom: nom.value, cognom: cognom.value}
-    window.localStorage.setItem('nom', JSON.stringify(dada))
+
+    add_task.style.display = "yes";
+
+
+
+
+    // titol.innerHTML= "Hola " + nom.value + " " + cognom.value
+    // let dada = {nom: nom.value, cognom: cognom.value}
+    // window.localStorage.setItem('nom', JSON.stringify(dada))
 
 
 })
