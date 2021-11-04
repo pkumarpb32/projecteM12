@@ -4,20 +4,31 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Prova de Local Storage</title>
 </head>
 <body>
-    <div>
-        <h2>TODO List</h2>
-        <input type="text" name="todo_item" id="todo_item">
-        <button id="add" >ADD</button>
+    <div id="All_container">
+        <div id="todo_list">
+            <h2>TODO List</h2>
+            <button id="add" >ADD TASK</button>
         
-        <ul>
-            <li>TASK 1</li>
-
-        </ul>
+            <ul>
+              <li>TASK 1</li>
+            </ul>
+    </div>
+    <div id="add_task" class="add_tasks">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="fname" value=""><br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" value=""><br>
+        <label for="Responsible">Responsible:</label>
+        <input type="text" name="Responsible" value=""><br>
+        <button id="btn_add">ADD</button>
 
     </div>
+
+</div>
 
     <script src="app.js"></script>
 </body>
