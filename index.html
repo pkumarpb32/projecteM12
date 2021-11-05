@@ -1,45 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Prova de Local Storage</title>
+    <title>Kanban Board</title>
+    
+    <title>Kanban Board</title>
+    <script>
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
 </head>
 <body>
-    <div id="myDIV" class="header">
-        <h2>To Do List</h2>
-
-        <input type="text" id="input" >
-        <button id="add" >Add </button>
-      </div>
-
-
-      <div id="addtask" style="display: none">
-        <p>Add new task</p>
-        <input type="text" id="nom" placeholder="nom" > <br>
-        <input type="text" id="desc" placeholder="descripcio" > <br>
-        <input type="text" id="desc" placeholder="responsable" > <br>
-        <input type="date" id="desc" >
-        <div class="timer__btnContainer">
-            <button type="button">
-                <span class="material-icons"> add task </span>
-            </button>
-            
+    <div class="container">
+        <div class="kanban-heading">
+            <strong class="kanban-heading-text">Kanban Board</strong>
+        </div>
+        <div class="kanban-board">
+            <div class="kanban-block" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <strong>To Do</strong>
+                <div class="task-button-block">
+                    <button id="task-button">Create new task</span>
+                </div>
+                <div class="task" id="task1" draggable="true" ondragstart="drag(event)">
+                    <span>Task 1</span>
+                </div>
+                <div class="task" id="task2" draggable="true" ondragstart="drag(event)">
+                    <span>Task 2</span>
+                </div>
+                <div class="task" id="task3" draggable="true" ondragstart="drag(event)">
+                    <span>Task 3</span>
+                </div>
+                <div class="task" id="task4" draggable="true" ondragstart="drag(event)">
+                    <span>Task 4</span>
+                </div>
+                <div class="task" id="task5" draggable="true" ondragstart="drag(event)">
+                    <span>Task 5</span>
+                </div>
+                <div class="task" id="task6" draggable="true" ondragstart="drag(event)">
+                    <span>Task 6</span>
+                </div>
+            </div>
+            <div class="kanban-block" id="inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <strong>In Progress</strong>
+            </div>
+            <div class="kanban-block" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
+                <strong>Done</strong>
+            </div>
         </div>
     </div>
-
-
-
-
-      <!-- list-->
-      <ul id="list">
-        
-      </ul>
-
-
-
-      <script src="app.js"></script>
 </body>
 </html>
