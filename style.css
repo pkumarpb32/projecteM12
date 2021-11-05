@@ -19,10 +19,10 @@
 }
 
 body {
-  background-color: black;
+  background-color: white;
 }
 
-.kanban-board {
+.kanban-tauler {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -41,12 +41,12 @@ body {
   background-color: #fec6d1;
 }
 
-#inprogress {
+#doing {
   background-color: #ffaf00;
 }
 
 #done {
-  background-color: #018b01;
+  background-color: #3f8b01;
 }
 
 .container {
