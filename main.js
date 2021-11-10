@@ -9,11 +9,4 @@ class tasca {
     }
   }
 
-  get codi()
-  {
-      return codi;
-  }
   
-  get descripcio(){
-      return this.
-  }
