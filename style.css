@@ -33,7 +33,7 @@ body {
     padding: 20px;
 }
 
-input[type=text], select {
+input[type=text],[type=date], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
