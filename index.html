@@ -8,8 +8,10 @@
     <title>Prova de Local Storage</title>
 </head>
 <body>
-    <div id="All_container">
-        <div id="todo_list">
+    <div class="container">
+        <h1>KANBAN</h1>
+        <div class="kanban">
+        <div class="column" id="todo_list">
             <h2>TODO List</h2>
             <button id="add" >ADD TASK</button>
     <!-- Llista de les tasques -->
@@ -20,14 +22,27 @@
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" value=""><br>
         <label for="description">Description:</label>
-        <input type="text" id="description" name="description" value=""><br>
+        <textarea cols="40" rows="5" id="description" name="description" ></textarea>
+        <!-- <input rows="5" cols="40" type="text" id="description" name="description" value=""><br> -->
         <label for="Responsible">Responsible:</label>
-        <input type="text" id="responsible" name="Responsible" value=""><br>
+        <select id="select_responsible">
+            <option>Choose a number</option>
+          </select>
+        <!-- <input type="text" id="responsible" name="Responsible" value=""><br> -->
         <label for="expected_date">Expected Completion Date:</label>
         <input type="date" id="date_expected" name="expected_date" ><br>
         <button id="btn_add">ADD</button>
     </div>
     </div>
+
+    <div class="column" id="doing">
+        <h2>DOING</h2>
+    </div>
+
+    <div class="column" id="done">
+        <h2>DOING</h2>
+    </div>
+</div>
 
 </div>
 

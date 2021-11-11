@@ -49,11 +49,13 @@ export default class Tasca{
 // get-set nom responsable
 
 set Id_responsable(val){
-    this.id_responsableValue = val;
+    this.id_responsable = val;
   }
   get Id_responsable(){
      return this.id_responsable;
   }
+
+
 
 
 }
