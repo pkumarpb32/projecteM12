@@ -1,12 +1,31 @@
 import Tasca from './Tasca.js'
 const dropdown_r = document.getElementById("select_responsible")
 const add_box = document.getElementById("add_task")
-const task_list = document.getElementById("task_list")
+const task_list = document.getElementById("todo_list")
 const btn_add = document.getElementById("add")
 const btn_done = document.getElementById("btn_add")
 var tasks = [] = JSON.parse(window.localStorage.getItem("nom") || "[]")
-load_tasks()
 setMinDate()
+if(tasks.length != 0){
+  load_tasks()
+}
+/////////////
+
+
+// function drop(ev) {
+//   ev.preventDefault();
+//   var data = ev.dataTransfer.getData("text");
+//   ev.target.appendChild(document.getElementById(data));
+// }
+
+// // function allowDrop(ev) {
+// //   ev.preventDefault();
+// // }
+
+// function drag(ev) {
+//   ev.dataTransfer.setData("text", ev.target.id);
+// }
+/////////////////////// 
 
 var responsibles =  ["Pritish", "Adrian", "Kumar"];
 load_responsible()
@@ -46,20 +65,31 @@ btn_done.addEventListener("click", ()=>{
     tasks.push(tasca)
     localStorage.setItem("nom", JSON.stringify(tasks))
 
-    let li = document.createElement("li");
-    li.appendChild(document.createTextNode(tasca.nom))
-    task_list.appendChild(li)
+    var div = document.createElement("div")
+    div.appendChild(document.createTextNode(tasca.nom))
+    div.setAttribute('draggable', true)
+    div.classList.add("task")
+    div.addEventListener('dragstart', drag)
+    div.id = tasca.codi
+    task_list.appendChild(div)
     add_box.style.display = "none"
 
 
 })
 
 function load_tasks(){
+
     tasks.forEach(element => {
-        let li = document.createElement("li")
-        li.appendChild(document.createTextNode(element.nom))
-        task_list.appendChild(li)
+      var div = document.createElement("div")
+      div.appendChild(document.createTextNode(element.nom))
+      div.setAttribute('draggable', true)
+      div.classList.add("task")
+      div.id = element.codi;
+      div.addEventListener('dragstart', drag);
+      task_list.appendChild(div)
     });
+
+
 }
 
 function load_responsible(){
@@ -72,3 +102,19 @@ function load_responsible(){
 
   });
 }
+
+// function allowDrop(ev) {
+//   ev.preventDefault();
+// }
+
+// function drag(ev) {
+//   console.log(ev.target.id);
+//   ev.dataTransfer.setData("text", ev.target.id);
+// }
+  
+// function drop(ev) {
+//     ev.preventDefault();
+//     var data = ev.dataTransfer.getData("text");
+//     console.log(data)
+//     ev.currentTarget.appendChild(document.getElementById(data));
+// }
