@@ -13,6 +13,14 @@ h1{
   
 }
 
+button{
+  border-radius: 8px;
+  padding: 5px;
+  font-family: 'Brush Script MT', cursive;
+  background-color: black;
+  color: white;
+}
+
 h2{
   text-align: center;
 }
@@ -57,6 +65,15 @@ body {
   cursor: move;
 }
 
+.urgent{
+  background-color: yellow;
+  color: black;
+
+}
+.no_urgent{
+  background-color: blueviolet;
+
+}
 
 
 .add_tasks{

@@ -41,7 +41,7 @@ function setMinDate(){
 // set minimun
 var today = new Date();
 var dd = today.getDate();
-var mm = today.getMonth()+1; //January is 0 so need to add 1 to make it 1!
+var mm = today.getMonth()+1; 
 var yyyy = today.getFullYear();
   if(dd<10){
     dd='0'+dd
@@ -64,13 +64,17 @@ btn_add.addEventListener("click", ()=>{
 // botó per afegir una nova tasca
 btn_done.addEventListener("click", ()=>{
     let tasca = new Tasca()
-    tasca.Codi = Date.now();
-    tasca.Nom = document.getElementById("name").value
-    tasca.Descripcio = document.getElementById("description").value
-    tasca.Id_responsable = dropdown_r.selectedOptions[0].value  //document.getElementById("responsible").value 
-    tasca.Data_previsio = document.getElementById("date_expected").value
-    tasca.Data_creacio = new Date().toJSON().slice(0,10);
+    tasca.codi = Date.now();
+    tasca.nom = document.getElementById("name").value
+    tasca.descripcio = document.getElementById("description").value
+    tasca.id_responsable = dropdown_r.selectedOptions[0].value  //document.getElementById("responsible").value 
+    tasca.data_previsio = document.getElementById("date_expected").value
+    tasca.data_creacio = new Date().toJSON().slice(0,10);
+    tasca.prioritat = document.getElementById("priority").value;
     tasca.estat = "todo";
+
+
+    check_task(tasca.nom);
     tasks.push(tasca)
     localStorage.setItem("nom", JSON.stringify(tasks))
 
@@ -78,6 +82,7 @@ btn_done.addEventListener("click", ()=>{
     div.appendChild(document.createTextNode(tasca.nom))
     div.setAttribute('draggable', true)
     div.classList.add("task")
+    div.classList.add(document.getElementById("priority").value);
     div.addEventListener('dragstart', drag)
     div.id = tasca.codi
     task_list.appendChild(div)
@@ -85,6 +90,11 @@ btn_done.addEventListener("click", ()=>{
 
 
 })
+
+function check_task(task_name){
+  let t =  tasks.find(element => element.nom == task_name);
+
+}
 
 function load_tasks(){
 
@@ -100,15 +110,16 @@ function load_tasks(){
     // carregar totes les tasques
 
     tasks.forEach(element => {
-      var div = document.createElement("div")
-      div.appendChild(document.createTextNode(element.nom))
-      div.setAttribute('draggable', true)
-      div.classList.add("task")
+      var div = document.createElement("div");
+      div.appendChild(document.createTextNode(element.nom));
+      div.setAttribute('draggable', true);
+      div.classList.add("task");
+      div.classList.add(element.prioritat);
       div.id = element.codi;
       div.addEventListener('dragstart', drag);
-      task_list.appendChild(div)
+      task_list.appendChild(div);
       if(element.estat == "todo"){
-        task_list.appendChild(div)
+        task_list.appendChild(div);
       }
       else if(element.estat == "doing"){
         document.getElementById("doing").appendChild(div);
