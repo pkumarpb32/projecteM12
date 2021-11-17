@@ -6,6 +6,7 @@ export default class Tasca{
     this.data_previsio = ""
     this.id_responsable = ""
     this.descripcio = " "
+    this.estat = " "
     }
 
 // get-set codi
@@ -54,6 +55,13 @@ set Id_responsable(val){
   get Id_responsable(){
      return this.id_responsable;
   }
+
+//   set Estat(val){
+//    this.estat = val;
+//  }
+//  get Estat(){
+//     return this.estat;
+//  }
 
 
 

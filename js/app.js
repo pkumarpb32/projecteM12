@@ -1,31 +1,39 @@
 import Tasca from './Tasca.js'
 const dropdown_r = document.getElementById("select_responsible")
 const add_box = document.getElementById("add_task")
-const task_list = document.getElementById("todo_list")
+const task_list = document.getElementById("todo")
 const btn_add = document.getElementById("add")
 const btn_done = document.getElementById("btn_add")
+var columns = document.getElementsByClassName("column")
 var tasks = [] = JSON.parse(window.localStorage.getItem("nom") || "[]")
 setMinDate()
 if(tasks.length != 0){
   load_tasks()
 }
-/////////////
+///////////// Funcions drag and drop ////////////////////////////
 
+function allowDrop(ev) {
+  ev.preventDefault();
+}
 
-// function drop(ev) {
-//   ev.preventDefault();
-//   var data = ev.dataTransfer.getData("text");
-//   ev.target.appendChild(document.getElementById(data));
-// }
+function drag(ev) {
+  ev.dataTransfer.setData("text", ev.target.id);
+}
+  
 
-// // function allowDrop(ev) {
-// //   ev.preventDefault();
-// // }
-
-// function drag(ev) {
-//   ev.dataTransfer.setData("text", ev.target.id);
-// }
-/////////////////////// 
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.currentTarget.appendChild(document.getElementById(data));
+    let t =  tasks.find(element => element.codi == data);
+    tasks.splice(tasks.indexOf(t),1);
+    t.estat = ev.currentTarget.id;
+    tasks.push(t);
+    localStorage.setItem("nom", JSON.stringify(tasks))
+    console.log(ev.currentTarget.id);
+    //console.log(t.Estat);
+}
+////////////////////////////////////////////////////////////////////
 
 var responsibles =  ["Pritish", "Adrian", "Kumar"];
 load_responsible()
@@ -62,6 +70,7 @@ btn_done.addEventListener("click", ()=>{
     tasca.Id_responsable = dropdown_r.selectedOptions[0].value  //document.getElementById("responsible").value 
     tasca.Data_previsio = document.getElementById("date_expected").value
     tasca.Data_creacio = new Date().toJSON().slice(0,10);
+    tasca.estat = "todo";
     tasks.push(tasca)
     localStorage.setItem("nom", JSON.stringify(tasks))
 
@@ -79,6 +88,17 @@ btn_done.addEventListener("click", ()=>{
 
 function load_tasks(){
 
+  // afegir els events per fer drag and drop
+
+    // columns[0].addEventListener('drop', drop);
+    // columns[0].addEventListener('dragover', allowDrop);
+    // columns[1].addEventListener('drop', drop);
+    // columns[1].addEventListener('dragover', allowDrop);
+    // columns[2].addEventListener('drop', drop);
+    // columns[2].addEventListener('dragover', allowDrop);
+
+    // carregar totes les tasques
+
     tasks.forEach(element => {
       var div = document.createElement("div")
       div.appendChild(document.createTextNode(element.nom))
@@ -87,6 +107,15 @@ function load_tasks(){
       div.id = element.codi;
       div.addEventListener('dragstart', drag);
       task_list.appendChild(div)
+      if(element.estat == "todo"){
+        task_list.appendChild(div)
+      }
+      else if(element.estat == "doing"){
+        document.getElementById("doing").appendChild(div);
+      }
+      else if(element.estat == "done"){
+        document.getElementById("done").appendChild(div);
+      }
     });
 
 
@@ -102,19 +131,7 @@ function load_responsible(){
 
   });
 }
-
-// function allowDrop(ev) {
-//   ev.preventDefault();
-// }
-
-// function drag(ev) {
-//   console.log(ev.target.id);
-//   ev.dataTransfer.setData("text", ev.target.id);
-// }
-  
-// function drop(ev) {
-//     ev.preventDefault();
-//     var data = ev.dataTransfer.getData("text");
-//     console.log(data)
-//     ev.currentTarget.appendChild(document.getElementById(data));
-// }
+window.ondrop = ondrop;
+window.allowDrop = allowDrop;
+window.drop = drop;
+// onDrop="drop(event)" ondragover="allowDrop(event)"

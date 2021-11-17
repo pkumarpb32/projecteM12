@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Prova de Local Storage</title>
-
+<!-- 
     <script>
         function allowDrop(ev) {
           ev.preventDefault();
@@ -22,14 +22,14 @@
             ev.currentTarget.appendChild(document.getElementById(data));
         }
         
-        </script>
+        </script> -->
 
 </head>
 <body>
     <div class="container">
         <h1>KANBAN</h1>
         <div class="kanban">
-        <div class="column" id="todo_list" onDrop="drop(event)" ondragover="allowDrop(event)" >
+        <div class="column" id="todo" onDrop="drop(event)" ondragover="allowDrop(event)" > 
 
             <h2>TODO List</h2>
             <button id="add" >ADD TASK</button>
@@ -53,7 +53,7 @@
     </div>
     </div>
 
-    <div class="column" id="doing" ondrop="drop(event)" ondragover="allowDrop(event)" >
+    <div class="column" id="doing" onDrop="drop(event)" ondragover="allowDrop(event)" >
         <h2>DOING</h2>
         
     <div id="doing_tasks">
@@ -71,6 +71,6 @@
 </div>
 
     <script type="module" src="js/app.js"></script>
-    <script type="module" src="js/Tasca.js"></script>
+    <!-- <script type="module" src="js/Tasca.js"></script> -->
 </body>
 </html>
