@@ -32,6 +32,23 @@ h2{
   border-radius: 10px;
 
 }
+#menu_tasques{
+  z-index: 1000;
+  background: #1b1a1a;
+  border-radius: 5px;
+  width: 150px;
+  display: none;
+  position: fixed;
+}
+
+#menu_tasques .item{
+  padding: 8px 10px;
+  font-size: 15px;
+  color: #eee;
+  cursor: pointer;
+  border-radius: inherit;
+}
+
 #todo{
   background-color: red;
 }

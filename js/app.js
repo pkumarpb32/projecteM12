@@ -1,10 +1,15 @@
 import Tasca from './Tasca.js'
-const dropdown_r = document.getElementById("select_responsible")
-const add_box = document.getElementById("add_task")
-const task_list = document.getElementById("todo")
-const btn_add = document.getElementById("add")
-const btn_done = document.getElementById("btn_add")
-var columns = document.getElementsByClassName("column")
+const dropdown_r = document.getElementById("select_responsible");
+const add_box = document.getElementById("add_task");
+const task_list = document.getElementById("todo");
+const btn_add = document.getElementById("add");
+const btn_done = document.getElementById("btn_add");
+const context_menu = document.getElementById("menu_tasques");
+const btn_eliminar = document.getElementById("eliminar");
+const btn_modificar = document.getElementById("modificar");
+// Variable per guardar el codi de la tasca quan cliquem el boto dret
+var codi;
+
 var tasks = [] = JSON.parse(window.localStorage.getItem("nom") || "[]")
 setMinDate()
 if(tasks.length != 0){
@@ -24,21 +29,22 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    ev.currentTarget.appendChild(document.getElementById(data));
     let t =  tasks.find(element => element.codi == data);
-    tasks.splice(tasks.indexOf(t),1);
-    t.estat = ev.currentTarget.id;
-    tasks.push(t);
-    localStorage.setItem("nom", JSON.stringify(tasks))
-    console.log(ev.currentTarget.id);
-    //console.log(t.Estat);
+    if(t.estat != ev.currentTarget.id){
+      ev.currentTarget.appendChild(document.getElementById(data));
+      tasks.splice(tasks.indexOf(t),1);
+      t.estat = ev.currentTarget.id;
+      tasks.push(t);
+      localStorage.setItem("nom", JSON.stringify(tasks));
+    }
+    
 }
 ////////////////////////////////////////////////////////////////////
 
 var responsibles =  ["Pritish", "Adrian", "Kumar"];
 load_responsible()
 function setMinDate(){
-// set minimun
+// establir la data minima 
 var today = new Date();
 var dd = today.getDate();
 var mm = today.getMonth()+1; 
@@ -61,54 +67,126 @@ btn_add.addEventListener("click", ()=>{
     add_box.style.display = "block"
 })
 
+// funcio per mostar el context menu
+function mostar_menu(event){
+  event.preventDefault();
+  const {clientX : mouseX, clientY : mouseY} = event;
+  context_menu.style.top =  `${mouseY}px`;
+  context_menu.style.left =  `${mouseX}px`;
+  context_menu.style.display = "block";
+  codi = event.target.id;
+}
+
+// boto per eliminar la tasca seleccionada
+btn_eliminar.addEventListener("click",(e) =>{
+
+  // busquem la tasca amb la codi
+  eliminar_tasca(codi);
+  context_menu.style.display = "none";
+});
+
+// boto per modificar la tasca
+btn_modificar.addEventListener("click", (e) =>{
+  let t =  tasks.find(element => element.codi == codi);
+  document.getElementById("name").value = t.nom;
+  document.getElementById("description").value = t.descripcio;
+  document.getElementById("select_responsible").value = t.id_responsable;
+  document.getElementById("date_expected").value = t.data_previsio;
+  document.getElementById("priority").value = t.prioritat;
+  add_box.style.display = "block"
+  context_menu.style.display = "none";
+});
+
+
+// funció per eliminar tasca del array tasca i de la llista div
+function eliminar_tasca(id){
+  let t =  tasks.find(element => element.codi == id);
+  tasks.splice(tasks.indexOf(t),1);
+  document.getElementById(id).remove();
+  localStorage.setItem("nom", JSON.stringify(tasks));
+};
+
+document.querySelector("body").addEventListener("click", (e) =>{
+if(e.target.offsetParent != context_menu){
+  context_menu.style.display = "none";
+}
+});
+
+
 // botó per afegir una nova tasca
 btn_done.addEventListener("click", ()=>{
-    let tasca = new Tasca()
-    tasca.codi = Date.now();
-    tasca.nom = document.getElementById("name").value
-    tasca.descripcio = document.getElementById("description").value
-    tasca.id_responsable = dropdown_r.selectedOptions[0].value  //document.getElementById("responsible").value 
-    tasca.data_previsio = document.getElementById("date_expected").value
-    tasca.data_creacio = new Date().toJSON().slice(0,10);
-    tasca.prioritat = document.getElementById("priority").value;
-    tasca.estat = "todo";
-
-
-    check_task(tasca.nom);
-    tasks.push(tasca)
-    localStorage.setItem("nom", JSON.stringify(tasks))
-
-    var div = document.createElement("div")
-    div.appendChild(document.createTextNode(tasca.nom))
-    div.setAttribute('draggable', true)
-    div.classList.add("task")
-    div.classList.add(document.getElementById("priority").value);
-    div.addEventListener('dragstart', drag)
-    div.id = tasca.codi
-    task_list.appendChild(div)
-    add_box.style.display = "none"
-
-
+  guardarTasca();
 })
 
-function check_task(task_name){
-  let t =  tasks.find(element => element.nom == task_name);
+function guardarTasca(){
+  // comprovar que el camp nom no sigui buit
+    if(document.getElementById("name").value != "" && document.getElementById("description").value != "" 
+    && dropdown_r.selectedOptions[0].value != "" && document.getElementById("date_expected").value != ""
+    && document.getElementById("priority").value != "" && dropdown_r.selectedOptions[0].value != "Selecciona el responsable" ){
+// comprovar si existeix una tasca amb el mateix nom
+  let tasca = tasks.find(element => element.codi == codi);
+    // si no trobem la tasca, creem una de nova
+    if(tasca == null)
+    {
+      tasca = new Tasca();
+      tasca.codi = Date.now();
+      tasca.estat = "todo";
+      tasca.data_creacio = new Date().toJSON().slice(0,10);
+
+    }
+    // si ja existiex la tasca, la eliminarem
+    else
+    {
+      eliminar_tasca(tasca.codi);
+    }
+    if(!check_task(document.getElementById("name").value))
+    { 
+      tasca.nom = document.getElementById("name").value;
+      tasca.descripcio = document.getElementById("description").value;
+      tasca.id_responsable = dropdown_r.selectedOptions[0].value;  //document.getElementById("responsible").value 
+      tasca.data_previsio = document.getElementById("date_expected").value;  
+      tasca.prioritat = document.getElementById("priority").value;
+      tasks.push(tasca);
+      localStorage.setItem("nom", JSON.stringify(tasks));
+      var div = document.createElement("div");
+      div.appendChild(document.createTextNode(tasca.nom));
+      div.setAttribute('draggable', true);
+      div.classList.add("task");
+      div.classList.add(document.getElementById("priority").value);
+      div.addEventListener('dragstart', drag);
+      div.addEventListener('contextmenu', mostar_menu);
+      div.id = tasca.codi;
+      document.getElementById(tasca.estat).appendChild(div);
+      // task_list.appendChild(div);
+      add_box.style.display = "none";
+      clearValues();
+
+    
+  }
+  else{
+      alert('El nom introduït ja existex');
+    }
+  }
+  else{
+      alert('Amplia tots els camps!');
+    }
+  
 
 }
 
+function check_task(task_name){
+  let t =  tasks.find(element => element.nom == task_name);
+  if(t != null){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+ // carregar totes les tasques
 function load_tasks(){
-
-  // afegir els events per fer drag and drop
-
-    // columns[0].addEventListener('drop', drop);
-    // columns[0].addEventListener('dragover', allowDrop);
-    // columns[1].addEventListener('drop', drop);
-    // columns[1].addEventListener('dragover', allowDrop);
-    // columns[2].addEventListener('drop', drop);
-    // columns[2].addEventListener('dragover', allowDrop);
-
-    // carregar totes les tasques
-
+   
     tasks.forEach(element => {
       var div = document.createElement("div");
       div.appendChild(document.createTextNode(element.nom));
@@ -117,6 +195,7 @@ function load_tasks(){
       div.classList.add(element.prioritat);
       div.id = element.codi;
       div.addEventListener('dragstart', drag);
+      div.addEventListener('contextmenu', mostar_menu);
       task_list.appendChild(div);
       if(element.estat == "todo"){
         task_list.appendChild(div);
@@ -142,6 +221,15 @@ function load_responsible(){
 
   });
 }
+
+function clearValues(){
+  document.getElementById("name").value = "";
+  document.getElementById("description").value = "";
+  document.getElementById("select_responsible").selectedIndex = "0";
+  document.getElementById("date_expected").value = "";
+  document.getElementById("priority").selectedIndex = "0";
+}
+
 window.ondrop = ondrop;
 window.allowDrop = allowDrop;
 window.drop = drop;

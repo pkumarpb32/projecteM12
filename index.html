@@ -6,29 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Prova de Local Storage</title>
-<!-- 
-    <script>
-        function allowDrop(ev) {
-          ev.preventDefault();
-        }
-        
-        function drag(ev) {
-          ev.dataTransfer.setData("text", ev.target.id);
-        }
-          
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.currentTarget.appendChild(document.getElementById(data));
-        }
-        
-        </script> -->
 
 </head>
 <body>
-    <div class="container">
+    
         <h1>KANBAN</h1>
         <div class="kanban">
+        
+            <div id="menu_tasques">
+                <div id="modificar" class="item">Modificar</div>
+                <div id="eliminar" class="item">Eliminar</div>
+            </div>
+
         <div class="column" id="todo" onDrop="drop(event)" ondragover="allowDrop(event)" > 
 
             <h2>TODO List</h2>
@@ -40,12 +29,12 @@
     <!-- div per afegir una nova tasca -->
     <div id="add_task" class="add_tasks">
         <label for="name">Nom:</label>
-        <input type="text" id="name" name="name" value=""><br>
+        <input type="text" id="name" name="name" value="" required><br>
         <label for="description">Descripció:</label>
-        <textarea cols="40" rows="5" id="description" name="description" ></textarea>
+        <textarea cols="40" rows="5" id="description" name="description" required></textarea>
         <br>
         <label for="select_responsible">Responsable:</label>
-        <select id="select_responsible">
+        <select id="select_responsible" required>
             <option>Selecciona el responsable</option>
           </select>
           <br>
@@ -60,20 +49,16 @@
         <button id="btn_add">AFEGIR</button>
     </div>
     </div>
-
+<!-- div per mostar tasques (doing) -->
     <div class="column" id="doing" onDrop="drop(event)" ondragover="allowDrop(event)" >
         <h2>DOING</h2>
-        
-    <div id="doing_tasks">
-
- </div>
+<!--         
+    <div id="doing_tasks"></div> -->
     </div>
-
+<!-- div per mostar tasques (doing) -->
     <div class="column" id="done" onDrop="drop(event)" ondragover="allowDrop(event)">
         <h2>DONE</h2>
-        <div id="fet"  >
-        
-        </div>
+        <!-- <div id="fet"  ></div> -->
     </div>
 </div>
 </div>
