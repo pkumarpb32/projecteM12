@@ -7,10 +7,12 @@ const btn_done = document.getElementById("btn_add");
 const context_menu = document.getElementById("menu_tasques");
 const btn_eliminar = document.getElementById("eliminar");
 const btn_modificar = document.getElementById("modificar");
+const nom_tasques_storage = "tasques";
 // Variable per guardar el codi de la tasca quan cliquem el boto dret
+
 var codi;
 
-var tasks = [] = JSON.parse(window.localStorage.getItem("nom") || "[]")
+var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]")
 setMinDate()
 if(tasks.length != 0){
   load_tasks()
@@ -35,7 +37,7 @@ function drop(ev) {
       tasks.splice(tasks.indexOf(t),1);
       t.estat = ev.currentTarget.id;
       tasks.push(t);
-      localStorage.setItem("nom", JSON.stringify(tasks));
+      localStorage.setItem(nom_tasques_storage, JSON.stringify(tasks));
     }
     
 }
@@ -80,7 +82,7 @@ function mostar_menu(event){
 // boto per eliminar la tasca seleccionada
 btn_eliminar.addEventListener("click",(e) =>{
 
-  // busquem la tasca amb la codi
+  // eliminem la tasca seleccionada
   eliminar_tasca(codi);
   context_menu.style.display = "none";
 });
@@ -103,7 +105,7 @@ function eliminar_tasca(id){
   let t =  tasks.find(element => element.codi == id);
   tasks.splice(tasks.indexOf(t),1);
   document.getElementById(id).remove();
-  localStorage.setItem("nom", JSON.stringify(tasks));
+  localStorage.setItem(nom_tasques_storage, JSON.stringify(tasks));
 };
 
 document.querySelector("body").addEventListener("click", (e) =>{
@@ -147,7 +149,7 @@ function guardarTasca(){
       tasca.data_previsio = document.getElementById("date_expected").value;  
       tasca.prioritat = document.getElementById("priority").value;
       tasks.push(tasca);
-      localStorage.setItem("nom", JSON.stringify(tasks));
+      localStorage.setItem(nom_tasques_storage, JSON.stringify(tasks));
       var div = document.createElement("div");
       div.appendChild(document.createTextNode(tasca.nom));
       div.setAttribute('draggable', true);
