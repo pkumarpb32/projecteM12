@@ -46,7 +46,6 @@ function drop(ev) {
 }
 ////////////////////////////////////////////////////////////////////
 
-var responsibles =  ["Pritish", "Adrian", "Kumar"];
 load_responsible()
 function setMinDate(){
 // establir la data minima 
@@ -217,10 +216,30 @@ function load_tasks(){
 
 // Funció per mostar tota la informació d'una tasca
 function info(event){
-  let ttt = tasks.find(element => element.codi == event.target.id);
-  document.getElementById("n").innerHTML = ttt.nom;
-  document.getElementById("d").innerHTML = ttt.descripcio;
+
+  let t =  tasks.find(element => element.codi == event.target.id);
+  
+  // document.getElementById("codi_tasca").innerHTML = codi;
+  document.getElementById("nom_tasca").innerHTML = t.nom;
+  document.getElementById("data_creacio").innerHTML = t.data_creacio;
+  document.getElementById("data_previsio").innerHTML = t.data_previsio;
+  document.getElementById("descripcio").innerHTML = t.descripcio;
+  document.getElementById("estat").innerHTML = t.estat
+  document.getElementById("id_responsable").innerHTML = t.id_responsable;
+  document.getElementById("prioritat").innerHTML = t.prioritat;
+  
+  
+  // info.style.display = "block"
+  // context_menu.style.display = "none";
+
+
+
+  // let ttt = tasks.find(element => element.codi == event.target.id);
+  // document.getElementById("n").innerHTML = ttt.nom;
+  // document.getElementById("d").innerHTML = ttt.descripcio;
   div_info.style.display = "block";
+ // div_info.appendAfter(event.target);
+  event.target.parentNode.insertBefore(div_info, event.target.nextSibling);
 }
 
  // carregar tots els responsables
