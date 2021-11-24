@@ -28,6 +28,7 @@ function allowDrop(ev) {
 
 function drag(ev) {
   ev.dataTransfer.setData("text", ev.target.id);
+  div_info.style.display = "none";
 }
   
 
@@ -227,18 +228,7 @@ function info(event){
   document.getElementById("estat").innerHTML = t.estat
   document.getElementById("id_responsable").innerHTML = t.id_responsable;
   document.getElementById("prioritat").innerHTML = t.prioritat;
-  
-  
-  // info.style.display = "block"
-  // context_menu.style.display = "none";
-
-
-
-  // let ttt = tasks.find(element => element.codi == event.target.id);
-  // document.getElementById("n").innerHTML = ttt.nom;
-  // document.getElementById("d").innerHTML = ttt.descripcio;
   div_info.style.display = "block";
- // div_info.appendAfter(event.target);
   event.target.parentNode.insertBefore(div_info, event.target.nextSibling);
 }
 
