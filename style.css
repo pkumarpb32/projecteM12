@@ -93,7 +93,6 @@ body {
 
 .add_tasks{
     display: none;
-    position: fixed; 
     z-index: 1; 
     overflow: auto; 
     position: absolute;
@@ -131,3 +130,19 @@ input[type=text],[type=date], select, textarea {
     background-color: #45a049;
   }
 
+  .close:before {
+    content: '✕';
+  }
+  .close {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  #info{
+    display: none;
+
+  }

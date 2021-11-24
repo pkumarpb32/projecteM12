@@ -7,12 +7,15 @@ const btn_done = document.getElementById("btn_add");
 const context_menu = document.getElementById("menu_tasques");
 const btn_eliminar = document.getElementById("eliminar");
 const btn_modificar = document.getElementById("modificar");
+const close_btn = document.getElementsByClassName("close");
+const div_info = document.getElementById("info");
 const nom_tasques_storage = "tasques";
 // Variable per guardar el codi de la tasca quan cliquem el boto dret
 
 var codi;
 
 var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]")
+var resp_llista = [] = JSON.parse(window.localStorage.getItem("responsables") || "[]")
 setMinDate()
 if(tasks.length != 0){
   load_tasks()
@@ -69,6 +72,12 @@ btn_add.addEventListener("click", ()=>{
     add_box.style.display = "block"
 })
 
+// funcio per tancar el quardat de dailog per afegir una nova tasca
+close_btn[0].addEventListener("click", ()=>{
+  clearValues();
+  add_box.style.display = "none"
+})
+
 // funcio per mostar el context menu
 function mostar_menu(event){
   event.preventDefault();
@@ -90,9 +99,10 @@ btn_eliminar.addEventListener("click",(e) =>{
 // boto per modificar la tasca
 btn_modificar.addEventListener("click", (e) =>{
   let t =  tasks.find(element => element.codi == codi);
+  let r = resp_llista.find(element => element.codi = t.id_responsable);
   document.getElementById("name").value = t.nom;
   document.getElementById("description").value = t.descripcio;
-  document.getElementById("select_responsible").value = t.id_responsable;
+  document.getElementById("select_responsible").value = r.nom;
   document.getElementById("date_expected").value = t.data_previsio;
   document.getElementById("priority").value = t.prioritat;
   add_box.style.display = "block"
@@ -145,7 +155,7 @@ function guardarTasca(){
     { 
       tasca.nom = document.getElementById("name").value;
       tasca.descripcio = document.getElementById("description").value;
-      tasca.id_responsable = dropdown_r.selectedOptions[0].value;  //document.getElementById("responsible").value 
+      tasca.id_responsable = dropdown_r.selectedOptions[0].id;  //document.getElementById("responsible").value 
       tasca.data_previsio = document.getElementById("date_expected").value;  
       tasca.prioritat = document.getElementById("priority").value;
       tasks.push(tasca);
@@ -158,6 +168,7 @@ function guardarTasca(){
       div.addEventListener('dragstart', drag);
       div.addEventListener('contextmenu', mostar_menu);
       div.id = tasca.codi;
+      div.addEventListener('click', info);
       document.getElementById(tasca.estat).appendChild(div);
       // task_list.appendChild(div);
       add_box.style.display = "none";
@@ -198,28 +209,29 @@ function load_tasks(){
       div.id = element.codi;
       div.addEventListener('dragstart', drag);
       div.addEventListener('contextmenu', mostar_menu);
-      task_list.appendChild(div);
-      if(element.estat == "todo"){
-        task_list.appendChild(div);
-      }
-      else if(element.estat == "doing"){
-        document.getElementById("doing").appendChild(div);
-      }
-      else if(element.estat == "done"){
-        document.getElementById("done").appendChild(div);
-      }
+      div.addEventListener('click', info);
+      document.getElementById(element.estat).appendChild(div);
     });
-
 
 }
 
+// Funció per mostar tota la informació d'una tasca
+function info(event){
+  let ttt = tasks.find(element => element.codi == event.target.id);
+  document.getElementById("n").innerHTML = ttt.nom;
+  document.getElementById("d").innerHTML = ttt.descripcio;
+  div_info.style.display = "block";
+}
+
+ // carregar tots els responsables
 function load_responsible(){
 
-  responsibles.forEach(element => {
-    var el = document.createElement("option")
-    el.textContent = element
-    el.value = element
-    dropdown_r.appendChild(el)
+  resp_llista.forEach(element => {
+    var el = document.createElement("option");
+    el.textContent = element.nom;
+    el.value = element.nom;
+    el.id = element.codi;
+    dropdown_r.appendChild(el);
 
   });
 }
