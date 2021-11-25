@@ -24,12 +24,17 @@ button{
 h2{
   text-align: center;
 }
+h3{
+  margin-top: 0px;
+  text-align: center;
+}
 .column {
   float: left;
   padding: 10px;
   min-height: 400px; 
   width: 32.5%;
   border-radius: 10px;
+  margin-bottom: 20px;
 
 }
 #menu_tasques, #menu_responsable{
@@ -144,5 +149,8 @@ input[type=text],[type=date], select, textarea {
 
   #info{
     display: none;
+    padding: 10px;
+    background-color: blanchedalmond;
+    border-radius: 4px;
 
   }

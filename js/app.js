@@ -13,12 +13,12 @@ const nom_tasques_storage = "tasques";
 // Variable per guardar el codi de la tasca quan cliquem el boto dret
 
 var codi;
-
-var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]")
-var resp_llista = [] = JSON.parse(window.localStorage.getItem("responsables") || "[]")
-setMinDate()
+div_info.style.display = "none";
+var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]");
+var resp_llista = [] = JSON.parse(window.localStorage.getItem("responsables") || "[]");
+setMinDate();
 if(tasks.length != 0){
-  load_tasks()
+  load_tasks();
 }
 ///////////// Funcions drag and drop ////////////////////////////
 
@@ -216,20 +216,27 @@ function load_tasks(){
 }
 
 // Funció per mostar tota la informació d'una tasca
-function info(event){
-
-  let t =  tasks.find(element => element.codi == event.target.id);
-  
-  // document.getElementById("codi_tasca").innerHTML = codi;
-  document.getElementById("nom_tasca").innerHTML = t.nom;
-  document.getElementById("data_creacio").innerHTML = t.data_creacio;
-  document.getElementById("data_previsio").innerHTML = t.data_previsio;
-  document.getElementById("descripcio").innerHTML = t.descripcio;
-  document.getElementById("estat").innerHTML = t.estat
-  document.getElementById("id_responsable").innerHTML = t.id_responsable;
-  document.getElementById("prioritat").innerHTML = t.prioritat;
-  div_info.style.display = "block";
-  event.target.parentNode.insertBefore(div_info, event.target.nextSibling);
+function info(event)
+{
+console.log(div_info.style.display);
+  if(div_info.style.display == "none")
+  {
+    let t =  tasks.find(element => element.codi == event.target.id);
+    let r = resp_llista.find(element => element.codi == t.id_responsable);
+    // document.getElementById("codi_tasca").innerHTML = codi;
+    document.getElementById("nom_tasca").innerHTML = t.nom;
+    document.getElementById("data_creacio").innerHTML = t.data_creacio;
+    document.getElementById("data_previsio").innerHTML = t.data_previsio;
+    document.getElementById("descripcio").innerHTML = t.descripcio;
+    document.getElementById("estat").innerHTML = t.estat
+    document.getElementById("id_responsable").innerHTML = r.nom;
+    document.getElementById("prioritat").innerHTML = t.prioritat;
+    div_info.style.display = "block";
+    event.target.parentNode.insertBefore(div_info, event.target.nextSibling);
+  }
+  else{
+    div_info.style.display = "none";
+  }
 }
 
  // carregar tots els responsables
