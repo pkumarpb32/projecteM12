@@ -7,7 +7,11 @@ const context_menu = document.getElementById("menu_responsable");
 const btn_eliminar = document.getElementById("eliminar");
 const btn_modificar = document.getElementById("modificar");
 const nom_storage = "responsables";
+const info_resp = document.getElementById("info_resp");
+const btn_si = document.getElementById("btn_si");
+const btn_no = document.getElementById("btn_no");
 var codi;
+var check_click_info = 0;
 
 var resp_llista = [] = JSON.parse(window.localStorage.getItem(nom_storage) || "[]")
 //setMinDate()
@@ -22,24 +26,15 @@ btn_show.addEventListener("click", ()=>{
   })
 btn_add.addEventListener("click", newsda);
 
-// afegir responsable a la llista
-function afegir_responsable(){
-    let resp = new Responsable();
-    resp.codi = Date.now();
-    resp.nom = document.getElementById("name").value
-    resp.email = document.getElementById("email").value
-    resp_llista.push(resp)
-    localStorage.setItem(nom_storage, JSON.stringify(resp_llista))
-  
-    // crear div amb el nom del responsable
-    let li = document.createElement("div");
-    li.appendChild(document.createTextNode(resp.nom));
-    li.classList.add("responsable");
-    li.addEventListener('contextmenu', mostar_menu);
-    li.id = resp.codi;
-    document.getElementById("resp_list").appendChild(li);
-    div_add.style.display = "none"
-}
+btn_si.addEventListener("click", ()=>{
+  // eliminem la tasca seleccionada
+  eliminar_responsable(codi);
+  document.getElementById("delete_resp").style.display = "none";
+});
+btn_no.addEventListener("click", ()=>{
+  document.getElementById("delete_resp").style.display = "none";
+});
+
 
 // carregar tots els responsables
 function load_responsible(){
@@ -48,6 +43,7 @@ function load_responsible(){
         li.appendChild(document.createTextNode(element.nom))
         li.classList.add("responsable")
         li.addEventListener('contextmenu', mostar_menu);
+        li.addEventListener('click', info);
         li.id = element.codi;
         document.getElementById("resp_list").appendChild(li);
     });
@@ -65,8 +61,7 @@ function mostar_menu(event){
 
   btn_eliminar.addEventListener("click",(e) =>{
 
-     // eliminem el responsable seleccionat
-    eliminar_responsable(codi);
+     document.getElementById("delete_resp").style.display = "block";
     context_menu.style.display = "none";
   });
 
@@ -115,6 +110,7 @@ function mostar_menu(event){
         div.appendChild(document.createTextNode(resp.nom));
         div.classList.add("responsable");
         div.addEventListener('contextmenu', mostar_menu);
+        div.addEventListener('click', info);
         div.id = resp.codi;
         document.getElementById("resp_list").appendChild(div);
         // task_list.appendChild(div);
@@ -157,4 +153,20 @@ function validateEmail(email) {
 function clearValues(){
   document.getElementById("name").value = "";
   document.getElementById("email").value = "";
+}
+
+function info(event){
+
+  if(check_click_info != event.target.id){
+  let t =  resp_llista.find(element => element.codi == event.target.id);
+  document.getElementById("nom_resp").innerHTML = t.nom;
+  document.getElementById("email_resp").innerHTML = t.email;
+  event.target.parentNode.insertBefore(info_resp, event.target.nextSibling);
+  info_resp.style.display = "block";
+  check_click_info = event.target.id;
+  }
+  else{
+    info_resp.style.display = "none";
+    check_click_info = 0;
+  }
 }

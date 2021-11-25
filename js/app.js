@@ -10,13 +10,18 @@ const btn_modificar = document.getElementById("modificar");
 const close_btn = document.getElementsByClassName("close");
 const div_info = document.getElementById("info");
 const nom_tasques_storage = "tasques";
+const btn_si = document.getElementById("btn_eliminar");
+const btn_no = document.getElementById("btn_cancelar");
 // Variable per guardar el codi de la tasca quan cliquem el boto dret
 
 var codi;
+var check_click = 0;
 div_info.style.display = "none";
 var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]");
 var resp_llista = [] = JSON.parse(window.localStorage.getItem("responsables") || "[]");
 setMinDate();
+
+// carregar les tasques
 if(tasks.length != 0){
   load_tasks();
 }
@@ -46,25 +51,28 @@ function drop(ev) {
     
 }
 ////////////////////////////////////////////////////////////////////
-
-load_responsible()
-function setMinDate(){
-// establir la data minima 
-var today = new Date();
-var dd = today.getDate();
-var mm = today.getMonth()+1; 
-var yyyy = today.getFullYear();
-  if(dd<10){
-    dd='0'+dd
-  } 
-  if(mm<10){
-    mm='0'+mm
-  } 
-
-today = yyyy+'-'+mm+'-'+dd;
-document.getElementById("date_expected").setAttribute("min", today);
+// caregar els responsables
+if(resp_llista.length != 0){
+  load_responsible();
 }
 
+function setMinDate()
+{
+  // establir la data minima 
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; 
+  var yyyy = today.getFullYear();
+    if(dd<10){
+      dd='0'+dd
+    } 
+    if(mm<10){
+      mm='0'+mm
+    } 
+
+  today = yyyy+'-'+mm+'-'+dd;
+  document.getElementById("date_expected").setAttribute("min", today);
+}
 
 // Aquest botó mostra el quardat de dailog per afegir una nova tasca
 btn_add.addEventListener("click", ()=>{
@@ -76,7 +84,16 @@ btn_add.addEventListener("click", ()=>{
 close_btn[0].addEventListener("click", ()=>{
   clearValues();
   add_box.style.display = "none"
-})
+});
+
+btn_si.addEventListener("click", ()=>{
+  // eliminem la tasca seleccionada
+  eliminar_tasca(codi);
+  document.getElementById("delete_box").style.display = "none";
+});
+btn_no.addEventListener("click", ()=>{
+  document.getElementById("delete_box").style.display = "none";
+});
 
 // funcio per mostar el context menu
 function mostar_menu(event){
@@ -90,11 +107,11 @@ function mostar_menu(event){
 
 // boto per eliminar la tasca seleccionada
 btn_eliminar.addEventListener("click",(e) =>{
-
-  // eliminem la tasca seleccionada
-  eliminar_tasca(codi);
+  document.getElementById("delete_box").style.display = "block";
+ 
   context_menu.style.display = "none";
 });
+
 
 // boto per modificar la tasca
 btn_modificar.addEventListener("click", (e) =>{
@@ -218,11 +235,10 @@ function load_tasks(){
 // Funció per mostar tota la informació d'una tasca
 function info(event)
 {
-console.log(div_info.style.display);
-  if(div_info.style.display == "none")
-  {
-    let t =  tasks.find(element => element.codi == event.target.id);
-    let r = resp_llista.find(element => element.codi == t.id_responsable);
+  if(check_click != event.target.id){
+    let t =  tasks.find(e => e.codi == event.target.id);
+    let r = resp_llista.find(el => el.codi == t.id_responsable);
+    console.log(t.id_responsable);
     // document.getElementById("codi_tasca").innerHTML = codi;
     document.getElementById("nom_tasca").innerHTML = t.nom;
     document.getElementById("data_creacio").innerHTML = t.data_creacio;
@@ -230,13 +246,24 @@ console.log(div_info.style.display);
     document.getElementById("descripcio").innerHTML = t.descripcio;
     document.getElementById("estat").innerHTML = t.estat
     document.getElementById("id_responsable").innerHTML = r.nom;
+    document.getElementById("correu_responsable").innerHTML = r.email;
     document.getElementById("prioritat").innerHTML = t.prioritat;
-    div_info.style.display = "block";
     event.target.parentNode.insertBefore(div_info, event.target.nextSibling);
+    div_info.style.display = "block";
+    check_click = event.target.id;
   }
   else{
     div_info.style.display = "none";
+    check_click = 0;
   }
+
+  //  if(t.codi == event.target.id && div_info.style.display == "block"){
+  //   div_info.style.display = "none";
+  //  }
+  // else
+  // {
+  //   div_info.style.display = "block";
+  // }
 }
 
  // carregar tots els responsables
@@ -251,7 +278,7 @@ function load_responsible(){
 
   });
 }
-
+// natejar els valors
 function clearValues(){
   document.getElementById("name").value = "";
   document.getElementById("description").value = "";
