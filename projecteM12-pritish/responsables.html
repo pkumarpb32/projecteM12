@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Prova de Local Storage</title>
+
+</head>
+<body>
+    
+        
+        <div >
+            <h1>Afegir Responsable</h1>
+            <div id="menu_responsable">
+                <div id="modificar" class="item">Modificar</div>
+                <div id="eliminar" class="item">Eliminar</div>
+            </div>   
+            
+            <div id="resp_list" class="column" >
+                <button id="add_resp" >AFEGIR RESPONSABLE</button>
+            </div>
+
+
+            
+    <!-- div per afegir el responsable -->
+    <div id="add_responsible" class="add_tasks">
+        <label for="name">Nom:</label>
+        <input type="text" id="name" name="name" value="" required><br>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" value="" required ><br>
+        <button id="btn_add_resp">AFEGIR</button>
+    </div>
+</div>
+
+<!-- info responsable-->
+
+<div id="info_resp" class="info_resp">
+        
+    
+    <label >Nom:</label>   
+        <span id="nom_resp"></span><br><br>
+    <label >Email:</label> 
+        <span id="email_resp"></span>
+    
+</div>
+
+    <script type="module" src="js/RespController.js"></script>
+    <!-- <script type="module" src="js/Tasca.js"></script> -->
+</body>
+</html>
