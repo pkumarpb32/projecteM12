@@ -78,7 +78,7 @@ function setMinDate()
 btn_add.addEventListener("click", ()=>{
   
     add_box.style.display = "block"
-})
+});
 
 // funcio per tancar el quardat de dailog per afegir una nova tasca
 close_btn[0].addEventListener("click", ()=>{
@@ -286,6 +286,11 @@ function clearValues(){
   document.getElementById("date_expected").value = "";
   document.getElementById("priority").selectedIndex = "0";
 }
+
+document.getElementById("change_responsable").addEventListener("click", ()=>{
+  document.location.href = "./responsables.html";
+});
+
 
 window.ondrop = ondrop;
 window.allowDrop = allowDrop;

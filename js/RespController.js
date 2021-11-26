@@ -170,3 +170,8 @@ function info(event){
     check_click_info = 0;
   }
 }
+
+document.getElementById("change_tasks").addEventListener("click", ()=>{
+  document.location.href = "./index.html";
+
+});
