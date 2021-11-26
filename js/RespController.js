@@ -35,6 +35,11 @@ btn_no.addEventListener("click", ()=>{
   document.getElementById("delete_resp").style.display = "none";
 });
 
+document.querySelector("body").addEventListener("click", (e) =>{
+  if(e.target.offsetParent != context_menu){
+    context_menu.style.display = "none";
+  }
+  });
 
 // carregar tots els responsables
 function load_responsible(){
