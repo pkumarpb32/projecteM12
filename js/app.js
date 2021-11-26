@@ -1,7 +1,6 @@
 import Tasca from './Tasca.js'
 const dropdown_r = document.getElementById("select_responsible");
 const add_box = document.getElementById("add_task");
-const task_list = document.getElementById("todo");
 const btn_add = document.getElementById("add");
 const btn_done = document.getElementById("btn_add");
 const context_menu = document.getElementById("menu_tasques");
@@ -77,7 +76,8 @@ function setMinDate()
 // Aquest botó mostra el quardat de dailog per afegir una nova tasca
 btn_add.addEventListener("click", ()=>{
   
-    add_box.style.display = "block"
+    add_box.style.display = "block";
+    codi = 0;
 });
 
 // funcio per tancar el quardat de dailog per afegir una nova tasca
