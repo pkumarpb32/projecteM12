@@ -55,15 +55,15 @@ h3{
 }
 
 #todo{
-  background-color: red;
+  background-color:#EC7A61 ;
 }
 
 #doing{
-  background-color: blue;
+  background-color: #7D7AED;
 }
 
 #done{
-  background-color: green;
+  background-color: #81ED7A;
 }
 
 body {
@@ -78,7 +78,7 @@ body {
 .task, .responsable{
   border: 1px solid white;
   background-color: rgba(0, 255, 157, 0.233);
-  color: white;
+  color: black;
   border-radius: .5em;
   padding: 10px;
   margin-top: 5px;
@@ -86,12 +86,12 @@ body {
 }
 
 .urgent{
-  background-color: yellow;
+  background-color: #E8ED7A;
   color: black;
 
 }
 .no_urgent{
-  background-color: blueviolet;
+  background-color: #FBABC8;
 
 }
 
