@@ -1,4 +1,18 @@
 import Tasca from './Tasca.js'
+import {Db} from './db.js'
+
+let bases = new Db();
+// let tas = new Tasca();
+// tas.codi = 1;
+// tas.nom = "daw";
+// tas.descripcio = "2312312";
+// tas.data_creacio = "fsdfa";
+// tas.data_previsio = "DAwdwa";
+// tas.estat = "sfsefa";
+// tas.id_responsable = "dwadwa";
+// bases.addTask(tas);
+
+
 const dropdown_r = document.getElementById("select_responsible");
 const add_box = document.getElementById("add_task");
 const btn_add = document.getElementById("add");
@@ -176,6 +190,10 @@ function guardarTasca(){
       tasca.data_previsio = document.getElementById("date_expected").value;  
       tasca.prioritat = document.getElementById("priority").value;
       tasks.push(tasca);
+
+      ///////////// firebase/////////////////
+      bases.addTask(tasca);
+      ///////////////////////////////////////////
       localStorage.setItem(nom_tasques_storage, JSON.stringify(tasks));
       var div = document.createElement("div");
       div.appendChild(document.createTextNode(tasca.nom));
