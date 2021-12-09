@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
-import {getFirestore, doc, setDoc, collection, addDoc} from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
+import {getFirestore, doc, setDoc, collection, getDocs, getDoc} from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
 import Tasca from "./Tasca.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -7,7 +7,26 @@ import Tasca from "./Tasca.js";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 export class Db{
-  firebaseApp;
+
+  taskConverter = 
+  {
+    toFirestore: (task) => {
+     return {
+      nom: task.nom,
+      codi : task.codi,
+      descripcio : task.descripcio,
+      data_creacio : task.data_creacio,
+      data_previsio : task.data_previsio,
+      estat : task.estat,
+      id_responsable : task.id_responsable,
+      prioritat : task.prioritat
+      };
+      },
+      fromFirestore: (snapshot, options) => {
+      const data = snapshot.data(options);
+      return new Tasca(data.nom, data.codi, data.descripcio, data.data_creacio, data.data_previsio, data.estat, data.id_responsable, data.prioritat);
+      }
+    };
     constructor(){ 
         const firebaseConfig = {
             apiKey: "AIzaSyD-MI3A2SrU75rAkBwCqigCUaGD7LrV04o",
@@ -20,52 +39,34 @@ export class Db{
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             this.db = getFirestore(app);
-         //   tascquesref = this.db.collection("tasques");
     }   
 
-    async addTask(task1)
-    {
-    // Firestore data converter
-        const taskConverter = {
-          toFirestore: (task) => {
-              return {
-                  nom: task.nom,
-                  codi : task.codi,
-                  descripcio : task.descripcio,
-                  data_creacio : task.data_creacio,
-                  data_previsio : task.data_previsio,
-                  estat : task.estat,
-                  id_responsable : task.id_responsable,
-                  prioritat : task.prioritat
-                  };
-          },
-          fromFirestore: (snapshot, options) => {
-              const data = snapshot.data(options);
-              return new Tasca(data.nom, data.codi, data.descripcio, data.data_creacio, data.data_previsio, data.estat, data.id_responsable, data.prioritat);
-          }
-        };
+// Guardar tasca a dins de la base de dades FireBase
+async addTask(task1)
+{
+// Firestore data converter
 
-
-        try{
-
-          const ref = doc(this.db, "tasques", task1.codi.toString()).withConverter(taskConverter);
-          await setDoc(ref, task1);
-       //   const docRef = await addDoc(collection(this.db, "tasques"), task);
-         // console.log("Document written with ID: ", ref.id);
-         console.log("done");
-        }catch(error){
-            console.log(error);
-        }
+    try{
+      const ref = doc(this.db, "tasques", task1.codi.toString()).withConverter(this.taskConverter);
+      await setDoc(ref, task1);
+      console.log("done");
+      }catch(error)
+      {
+        console.log(error);
+      }
     }
 
-
-    // writeUserData(userId, name, email, imageUrl) {
-    //     const db = this.firestore;
-    //     setDoc(doc(db, 'tasques/' + userId), {
-    //       username: name,
-    //       email: email,
-    //       profile_picture : imageUrl
-    //     });
-    //   }
-
+async getTask()
+{
+  var tasques = [];
+  const querySnapshot = await  getDocs(collection(this.db, "tasques"));
+  querySnapshot.forEach((doc1) => {
+    let t = new Tasca();
+    t = doc1.data();
+    tasques.push(t);
+    
+});
+  return tasques;
+}
+  
 }

@@ -2,15 +2,8 @@ import Tasca from './Tasca.js'
 import {Db} from './db.js'
 
 let bases = new Db();
-// let tas = new Tasca();
-// tas.codi = 1;
-// tas.nom = "daw";
-// tas.descripcio = "2312312";
-// tas.data_creacio = "fsdfa";
-// tas.data_previsio = "DAwdwa";
-// tas.estat = "sfsefa";
-// tas.id_responsable = "dwadwa";
-// bases.addTask(tas);
+
+// bases.getTask();
 
 
 const dropdown_r = document.getElementById("select_responsible");
@@ -30,7 +23,9 @@ const btn_no = document.getElementById("btn_cancelar");
 var codi;
 var check_click = 0;
 div_info.style.display = "none";
-var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]");
+var tasks = [];
+tasks = bases.getTask();
+// var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]");
 var resp_llista = [] = JSON.parse(window.localStorage.getItem("responsables") || "[]");
 setMinDate();
 
