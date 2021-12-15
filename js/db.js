@@ -24,7 +24,7 @@ export class Db{
       },
       fromFirestore: (snapshot, options) => {
       const data = snapshot.data(options);
-      return new Tasca(data.nom, data.codi, data.descripcio, data.data_creacio, data.data_previsio, data.estat, data.id_responsable, data.prioritat);
+      return new Tasca(data.codi, data.nom, data.data_creacio, data.data_previsio, data.id_responsable, data.descripcio, data.estat, data.prioritat);
       }
     };
     constructor(){ 
@@ -39,6 +39,7 @@ export class Db{
             // Initialize Firebase
             const app = initializeApp(firebaseConfig);
             this.db = getFirestore(app);
+  
     }   
 
 // Guardar tasca a dins de la base de dades FireBase
@@ -59,14 +60,27 @@ async addTask(task1)
 async getTask()
 {
   var tasques = [];
-  const querySnapshot = await  getDocs(collection(this.db, "tasques"));
-  querySnapshot.forEach((doc1) => {
+  // const querySnapshot = await this.db.collection("tasques").withConverter(this.taskConverter);
+ const querySnapshot = await getDocs(collection(this.db, "tasques"))
+ querySnapshot.forEach((doc1) => {
     let t = new Tasca();
-    t = doc1.data();
+    t.nom = doc1.data().nom;
+    t.codi = doc1.data().codi;
+    t.data_creacio = doc1.data().data_creacio;
+    t.data_previsio = doc1.data().data_previsio;
+    t.id_responsable = doc1.data().id_responsable;
+    t.descripcio = doc1.data().descripcio;
+    t.estat = doc1.data().estat;
+    t.prioritat = doc1.data().prioritat;
+
     tasques.push(t);
-    
+
 });
+
+console.log(tasques);
   return tasques;
 }
-  
+
+
 }
+

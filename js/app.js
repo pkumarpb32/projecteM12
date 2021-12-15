@@ -24,15 +24,19 @@ var codi;
 var check_click = 0;
 div_info.style.display = "none";
 var tasks = [];
-tasks = bases.getTask();
+bases.getTask().then((tasques)=>{
+  tasks = tasques;
+  console.log(tasks);
+  if(tasks.length != 0){
+   load_tasks();
+  }
+});
 // var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]");
 var resp_llista = [] = JSON.parse(window.localStorage.getItem("responsables") || "[]");
 setMinDate();
 
 // carregar les tasques
-if(tasks.length != 0){
-  load_tasks();
-}
+
 ///////////// Funcions drag and drop ////////////////////////////
 
 function allowDrop(ev) {
