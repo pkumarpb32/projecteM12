@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
 import {getFirestore, doc, setDoc, collection, getDocs, updateDoc, deleteDoc} from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
 import Tasca from "./Tasca.js";
+import Responsable from "./Responsable.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -30,6 +31,22 @@ export class Db{
       return new Tasca(data.codi, data.nom, data.data_creacio, data.data_previsio, data.id_responsable, data.descripcio, data.estat, data.prioritat);
       }
     };
+
+    RespConverter = 
+    {
+      toFirestore: (resp) => {
+       return {
+        nom: resp.nom,
+        codi : resp.codi,
+        email: resp.email
+        };
+        },
+        fromFirestore: (snapshot, options) => {
+        const data = snapshot.data(options);
+        return new Responsable(data.codi, data.nom, data.email);
+        }
+      };
+      
     constructor(){ 
         const firebaseConfig = {
             apiKey: "AIzaSyD-MI3A2SrU75rAkBwCqigCUaGD7LrV04o",
@@ -104,6 +121,45 @@ async deleteTask(task_id){
   await deleteDoc(doc(this.db, "tasques", task_id.toString()));
 }
 
+////////////////////// Responsables //////////////////////////////////////////
+async addResp(resp1)
+{
 
+    try{
+
+      const ref = doc(this.db, "responsables", resp1.codi.toString()).withConverter(this.RespConverter);
+      await setDoc(ref, resp1);
+      
+      console.log("done");
+      
+      }catch(error)
+      {
+        console.log(error);
+      }
+    }
+
+    
+  async getResp()
+  {
+     var responsables = [];
+      
+     const querySnapshot = await getDocs(collection(this.db, "responsables"))
+     querySnapshot.forEach((doc1) => {
+        let t = new Responsable();
+        t.codi = doc1.data().codi;
+        t.nom = doc1.data().nom;
+        t.email = doc1.data().email;
+        
+        responsables.push(t);
+    
+    });
+    
+    return responsables;
+  }
+
+  async deleteResp(resp_id){
+
+    await deleteDoc(doc(this.db, "responsables", resp_id.toString()));
+  }
 }
 

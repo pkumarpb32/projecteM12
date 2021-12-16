@@ -1,4 +1,5 @@
 import Responsable from "./Responsable.js"
+import {Db} from './db.js'
 
 const div_add = document.getElementById("add_responsible");
 const btn_show = document.getElementById("add_resp");
@@ -6,15 +7,30 @@ const btn_add = document.getElementById("btn_add_resp")
 const context_menu = document.getElementById("menu_responsable");
 const btn_eliminar = document.getElementById("eliminar");
 const btn_modificar = document.getElementById("modificar");
-const nom_storage = "responsables";
 const info_resp = document.getElementById("info_resp");
 const btn_si = document.getElementById("btn_si");
 const btn_no = document.getElementById("btn_no");
 var codi;
 var check_click_info = 0;
 
-var resp_llista = [] = JSON.parse(window.localStorage.getItem(nom_storage) || "[]")
-//setMinDate()
+let dataBase = new Db();
+
+var resp_llista = []
+
+// var resp_llista = [] = JSON.parse(window.localStorage.getItem(nom_storage) || "[]")
+
+
+dataBase.getResp().then((i)=>{
+  resp_llista = i;
+  console.log(resp_llista)
+
+  if(resp_llista.length != 0)
+  {
+   load_responsible();
+  }
+});
+
+
 if(resp_llista.length != 0){
  load_responsible()
 }
@@ -74,7 +90,9 @@ function mostar_menu(event){
     let r =  resp_llista.find(element => element.codi == id);
     resp_llista.splice(resp_llista.indexOf(r),1);
     document.getElementById(id).remove();
-    localStorage.setItem(nom_storage, JSON.stringify(resp_llista));
+    // localStorage.setItem(nom_storage, JSON.stringify(resp_llista));
+    dataBase.deleteResp(id);
+
   };
 
   btn_modificar.addEventListener("click", (e) =>{
@@ -110,7 +128,11 @@ function mostar_menu(event){
         resp.nom = document.getElementById("name").value;
         resp.email = document.getElementById("email").value;
         resp_llista.push(resp);
-        localStorage.setItem(nom_storage, JSON.stringify(resp_llista));
+
+        dataBase.addResp(resp);   // firebase
+
+        
+        // localStorage.setItem(nom_storage, JSON.stringify(resp_llista));
         let div = document.createElement("div");
         div.appendChild(document.createTextNode(resp.nom));
         div.classList.add("responsable");
@@ -140,8 +162,8 @@ function mostar_menu(event){
  
  }
   
- function check_resp(resp_name){
-  let t =  resp_llista.find(element => element.nom == resp_name);
+ function check_resp(task_name){
+  let t =  resp_llista.find(element => element.nom == task_name);
   if(t != null){
     return true;
   }
