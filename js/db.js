@@ -6,8 +6,11 @@ import Tasca from "./Tasca.js";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+// Aquesta Classe serveix per connectar a la base de dades de Firebase
 export class Db{
 
+// covertir un objecte d'una classe a un document de firebase
   taskConverter = 
   {
     toFirestore: (task) => {
@@ -50,17 +53,16 @@ async addTask(task1)
     try{
       const ref = doc(this.db, "tasques", task1.codi.toString()).withConverter(this.taskConverter);
       await setDoc(ref, task1);
-      console.log("done");
       }catch(error)
       {
         console.log(error);
       }
     }
 
-async getTask()
+    // Recuperar tasques 
+async getTasks()
 {
   var tasques = [];
-  // const querySnapshot = await this.db.collection("tasques").withConverter(this.taskConverter);
  const querySnapshot = await getDocs(collection(this.db, "tasques"))
  querySnapshot.forEach((doc1) => {
     let t = new Tasca();
@@ -77,10 +79,10 @@ async getTask()
 
 });
 
-console.log(tasques);
   return tasques;
 }
 
+// actualitzar una tasca
 async updateTask(task_id, status){
 
   try{
@@ -96,6 +98,7 @@ async updateTask(task_id, status){
       }
 }
 
+// Eliminar una tasca
 async deleteTask(task_id){
 
   await deleteDoc(doc(this.db, "tasques", task_id.toString()));

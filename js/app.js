@@ -28,9 +28,8 @@ var tasks = [];
 // var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]");
 var resp_llista = [] = JSON.parse(window.localStorage.getItem("responsables") || "[]");
 setMinDate();
-dataBase.getTask().then((tasques)=>{
+dataBase.getTasks().then((tasques)=>{
   tasks = tasques;
-  console.log(tasks);
   if(tasks.length != 0){
    load_tasks();
   }

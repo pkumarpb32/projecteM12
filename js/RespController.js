@@ -140,8 +140,8 @@ function mostar_menu(event){
  
  }
   
- function check_resp(task_name){
-  let t =  resp_llista.find(element => element.nom == task_name);
+ function check_resp(resp_name){
+  let t =  resp_llista.find(element => element.nom == resp_name);
   if(t != null){
     return true;
   }
