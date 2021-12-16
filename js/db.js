@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
-import {getFirestore, doc, setDoc, collection, getDocs, getDoc} from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
+import {getFirestore, doc, setDoc, collection, getDocs, updateDoc, deleteDoc} from "https://www.gstatic.com/firebasejs/9.5.0/firebase-firestore.js";
 import Tasca from "./Tasca.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -79,6 +79,26 @@ async getTask()
 
 console.log(tasques);
   return tasques;
+}
+
+async updateTask(task_id, status){
+
+  try{
+
+  const taskRef = doc(this.db, "tasques", task_id.toString());
+  await updateDoc(taskRef,{
+    estat: status
+  });
+}
+  catch(error)
+      {
+        console.log(error);
+      }
+}
+
+async deleteTask(task_id){
+
+  await deleteDoc(doc(this.db, "tasques", task_id.toString()));
 }
 
 

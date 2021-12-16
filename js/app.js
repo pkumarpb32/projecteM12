@@ -1,7 +1,7 @@
 import Tasca from './Tasca.js'
 import {Db} from './db.js'
 
-let bases = new Db();
+let dataBase = new Db();
 
 // bases.getTask();
 
@@ -24,17 +24,17 @@ var codi;
 var check_click = 0;
 div_info.style.display = "none";
 var tasks = [];
-bases.getTask().then((tasques)=>{
+
+// var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]");
+var resp_llista = [] = JSON.parse(window.localStorage.getItem("responsables") || "[]");
+setMinDate();
+dataBase.getTask().then((tasques)=>{
   tasks = tasques;
   console.log(tasks);
   if(tasks.length != 0){
    load_tasks();
   }
 });
-// var tasks = [] = JSON.parse(window.localStorage.getItem(nom_tasques_storage) || "[]");
-var resp_llista = [] = JSON.parse(window.localStorage.getItem("responsables") || "[]");
-setMinDate();
-
 // carregar les tasques
 
 ///////////// Funcions drag and drop ////////////////////////////
@@ -54,11 +54,12 @@ function drop(ev) {
     var data = ev.dataTransfer.getData("text");
     let t =  tasks.find(element => element.codi == data);
     if(t.estat != ev.currentTarget.id){
+      // actualizar la tasca 
+      dataBase.updateTask(t.codi, ev.currentTarget.id);
       ev.currentTarget.appendChild(document.getElementById(data));
       tasks.splice(tasks.indexOf(t),1);
-      t.estat = ev.currentTarget.id;
+      t.estat = ev.currentTarget.id ;
       tasks.push(t);
-      localStorage.setItem(nom_tasques_storage, JSON.stringify(tasks));
     }
     
 }
@@ -145,7 +146,8 @@ function eliminar_tasca(id){
   let t =  tasks.find(element => element.codi == id);
   tasks.splice(tasks.indexOf(t),1);
   document.getElementById(id).remove();
-  localStorage.setItem(nom_tasques_storage, JSON.stringify(tasks));
+  dataBase.deleteTask(id);
+  // localStorage.setItem(nom_tasques_storage, JSON.stringify(tasks));
 };
 
 document.querySelector("body").addEventListener("click", (e) =>{
@@ -185,15 +187,15 @@ function guardarTasca(){
     { 
       tasca.nom = document.getElementById("name").value;
       tasca.descripcio = document.getElementById("description").value;
-      tasca.id_responsable = dropdown_r.selectedOptions[0].id;  //document.getElementById("responsible").value 
+      tasca.id_responsable = dropdown_r.selectedOptions[0].id; 
       tasca.data_previsio = document.getElementById("date_expected").value;  
       tasca.prioritat = document.getElementById("priority").value;
       tasks.push(tasca);
 
       ///////////// firebase/////////////////
-      bases.addTask(tasca);
+      dataBase.addTask(tasca);
       ///////////////////////////////////////////
-      localStorage.setItem(nom_tasques_storage, JSON.stringify(tasks));
+   //   localStorage.setItem(nom_tasques_storage, JSON.stringify(tasks));
       var div = document.createElement("div");
       div.appendChild(document.createTextNode(tasca.nom));
       div.setAttribute('draggable', true);
