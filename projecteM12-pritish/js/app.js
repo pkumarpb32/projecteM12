@@ -186,10 +186,14 @@ function guardarTasca(){
     // si ja existiex la tasca, la eliminarem
   else
   {
+    if(tasca.nom == document.getElementById("name").value )
+    {
       eliminar_tasca(tasca.codi);
+    } 
   }
   if(!check_task(document.getElementById("name").value))
   { 
+    eliminar_tasca(tasca.codi);
     tasca.nom = document.getElementById("name").value;
     tasca.descripcio = document.getElementById("description").value;
     tasca.id_responsable = dropdown_r.selectedOptions[0].id; 
