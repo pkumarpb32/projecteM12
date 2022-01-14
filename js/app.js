@@ -53,6 +53,7 @@ function allowDrop(ev) {
 function drag(ev) {
   ev.dataTransfer.setData("text", ev.target.id);
   div_info.style.display = "none";
+  check_click = 0;
 }
   
 
@@ -183,17 +184,13 @@ function guardarTasca(){
     tasca.estat = "todo";
     tasca.data_creacio = new Date().toJSON().slice(0,10);
   }
-    // si ja existiex la tasca, la eliminarem
-    else
-    {
-      if(tasca.nom == document.getElementById("name").value )
-      {
-        eliminar_tasca(tasca.codi);
-      } 
-    }
-  if(!check_task(document.getElementById("name").value))
+
+  if(!check_task(document.getElementById("name").value) || tasca.nom == document.getElementById("name").value)
   { 
-    eliminar_tasca(tasca.codi);
+    if(tasca.codi == codi){
+      console.log("entrat");
+      eliminar_tasca(tasca.codi);
+    }
     tasca.nom = document.getElementById("name").value;
     tasca.descripcio = document.getElementById("description").value;
     tasca.id_responsable = dropdown_r.selectedOptions[0].id; 
@@ -216,6 +213,10 @@ function guardarTasca(){
     document.getElementById(tasca.estat).appendChild(div);
     // task_list.appendChild(div);
     add_box.style.display = "none";
+
+    if(div_info.style.display = "block"){
+      div_info.style.display = "none";
+    }
     clearValues();    
   }
   else

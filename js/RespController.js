@@ -10,6 +10,7 @@ const btn_modificar = document.getElementById("modificar");
 const info_resp = document.getElementById("info_resp");
 const btn_si = document.getElementById("btn_si");
 const btn_no = document.getElementById("btn_no");
+const close_btn = document.getElementsByClassName("close");
 var codi;
 var check_click_info = 0;
 
@@ -39,8 +40,8 @@ btn_show.addEventListener("click", ()=>{
   
     div_add.style.display = "block";
   
-  })
-btn_add.addEventListener("click", newsda);
+ })
+btn_add.addEventListener("click", addResp);
 
 btn_si.addEventListener("click", ()=>{
   // eliminem la tasca seleccionada
@@ -56,6 +57,11 @@ document.querySelector("body").addEventListener("click", (e) =>{
     context_menu.style.display = "none";
   }
   });
+
+close_btn[0].addEventListener("click", ()=>{
+  clearValues();
+  div_add.style.display = "none"
+});
 
 // carregar tots els responsables
 function load_responsible(){
@@ -103,53 +109,47 @@ function mostar_menu(event){
     context_menu.style.display = "none";
   });
 
-
-  function newsda(){
-
-     // comprovar que el camp nom no sigui buit
-     if(document.getElementById("name").value != "" && document.getElementById("email").value != ""){
+function addResp()
+{
+  // comprovar que el camp nom no sigui buit
+  if(document.getElementById("name").value != "" && document.getElementById("email").value != ""){
  // comprovar si existeix una tasca amb el mateix nom
-   let resp = resp_llista.find(element => element.codi == codi);
-     // si no trobem la tasca, creem una de nova
-     if(resp == null)
-     {
-       resp = new Responsable();
-       resp.codi = Date.now();
- 
-     }
-     else
-     {
-       eliminar_responsable(resp.codi);
-     }
-   if(!check_resp(document.getElementById("name").value))
-     { 
+  let resp = resp_llista.find(element => element.codi == codi);
+  // si no trobem la tasca, creem una de nova
+  if(resp == null)
+  {
+    resp = new Responsable();
+    resp.codi = Date.now();
+  }
 
-      if(validateEmail(document.getElementById("email").value)){
-        resp.nom = document.getElementById("name").value;
-        resp.email = document.getElementById("email").value;
-        resp_llista.push(resp);
-
-        dataBase.addResp(resp);   // firebase
-
-        
-        // localStorage.setItem(nom_storage, JSON.stringify(resp_llista));
-        let div = document.createElement("div");
-        div.appendChild(document.createTextNode(resp.nom));
-        div.classList.add("responsable");
-        div.addEventListener('contextmenu', mostar_menu);
-        div.addEventListener('click', info);
-        div.id = resp.codi;
-        document.getElementById("resp_list").appendChild(div);
-        // task_list.appendChild(div);
-        div_add.style.display = "none";
-        clearValues();
-
+  if(!check_resp(document.getElementById("name").value) || resp.nom == document.getElementById("name").value)
+  { 
+    if(validateEmail(document.getElementById("email").value))
+    {
+      if(resp.codi == codi){
+        eliminar_responsable(resp.codi);
       }
-      else{
-        alert('Email not valid');
+      resp.nom = document.getElementById("name").value;
+      resp.email = document.getElementById("email").value;
+      resp_llista.push(resp);
+      dataBase.addResp(resp);   // firebase    
+      let div = document.createElement("div");
+      div.appendChild(document.createTextNode(resp.nom));
+      div.classList.add("responsable");
+      div.addEventListener('contextmenu', mostar_menu);
+      div.addEventListener('click', info);
+      div.id = resp.codi;
+      document.getElementById("resp_list").appendChild(div);
+      div_add.style.display = "none";
+      if(info_resp.style.display = "block"){
+        info_resp.style.display = "none";
       }
- 
-     
+      clearValues();
+  }
+    else
+    {
+      alert('Email is not valid');
+    }    
    }
    else{
        alert('El nom introduït ja existex');
@@ -158,8 +158,6 @@ function mostar_menu(event){
    else{
        alert('Amplia tots els camps!');
      }
-   
- 
  }
   
  function check_resp(task_name){
@@ -182,23 +180,24 @@ function clearValues(){
   document.getElementById("email").value = "";
 }
 
-function info(event){
-
-  if(check_click_info != event.target.id){
-  let t =  resp_llista.find(element => element.codi == event.target.id);
-  document.getElementById("nom_resp").innerHTML = t.nom;
-  document.getElementById("email_resp").innerHTML = t.email;
-  event.target.parentNode.insertBefore(info_resp, event.target.nextSibling);
-  info_resp.style.display = "block";
-  check_click_info = event.target.id;
+function info(event)
+{
+  if(check_click_info != event.target.id)
+  {
+    let t =  resp_llista.find(element => element.codi == event.target.id);
+    document.getElementById("nom_resp").innerHTML = t.nom;
+    document.getElementById("email_resp").innerHTML = t.email;
+    event.target.parentNode.insertBefore(info_resp, event.target.nextSibling);
+    info_resp.style.display = "block";
+    check_click_info = event.target.id;
   }
-  else{
+  else
+  {
     info_resp.style.display = "none";
     check_click_info = 0;
   }
 }
-
+  
 document.getElementById("change_tasks").addEventListener("click", ()=>{
   document.location.href = "./index.html";
-
 });
