@@ -5,28 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
     <title>Prova de Local Storage</title>
 
 </head>
 <body>
-    
         <h1>KANBAN</h1>
-        <div class="kanban">
-            <div id="menu_tasques">
-                <div id="modificar" class="item">Modificar</div>
-                <div id="eliminar" class="item">Eliminar</div>
-            </div>
 
         <div class="column" id="todo" onDrop="drop(event)" ondragover="allowDrop(event)" > 
 
             <h2>TODO List</h2>
             <button id="add" >AFEGIR UNA TASCA</button>
             <button id="change_responsable">RESPONSABLES</button>  
-    <!-- Llista de les tasques -->
-            <!-- <ul id="task_list">
-            </ul> -->        
-            
-    <!-- div per afegir una nova tasca -->
+
     <div id="add_task" class="add_tasks">
         <label for="name">Nom:</label>
         <input type="text" id="name" name="name" value="" required><br>
