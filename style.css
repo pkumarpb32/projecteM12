@@ -1,11 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Dongle&display=swap');
+
 *{
     box-sizing: border-box;
 }
 .kanban {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  font-family: sans-serif;
+  justify-content: space-around;
+  font-family: Arial, Helvetica, sans-serif;
+  flex-wrap: wrap;
+ 
 }
 h1{
   text-align: center;
@@ -23,18 +27,21 @@ button{
 
 h2{
   text-align: center;
-}
+  margin-bottom: 0px;
+}   
 h3{
   margin-top: 0px;
   text-align: center;
 }
 .column {
-  float: left;
   padding: 10px;
   min-height: 400px; 
+  min-width: 300px;
   width: 32.5%;
   border-radius: 10px;
   margin-bottom: 20px;
+  font-size: 27px;
+  font-family: 'Dongle', sans-serif;
 
 }
 #menu_responsable{
@@ -79,19 +86,13 @@ body {
   border: 1px solid white;
   background-color: rgba(0, 255, 157, 0.233);
   color: black;
-  border-radius: .5em;
-  margin-top: 5px;
+  border-radius: 25px;
+  margin: 10px 20px;
   cursor: pointer;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  padding-top: 15px;
-  padding-bottom: 0px;
-  padding-left: 10px;
-}
-
-.task > span{
-  padding: 10px;
+  justify-content: center;
+  padding: 15px;
 }
 
 .task:hover, .responsable:hover{
@@ -111,8 +112,9 @@ body {
 
   background-color: transparent;
   border: 0px;
-
-
+  padding: 0px;
+  margin-right: 10px;
+  margin-bottom: 0px;
 }
 
 #menu_tasques{
@@ -125,6 +127,11 @@ body {
   display: flex;
   justify-content: flex-end;
   opacity: 1;
+}
+
+.task:hover{
+  display: flex;
+  justify-content: space-around;
 }
 
 button:hover{
@@ -155,6 +162,8 @@ button:hover{
     background-color: #f2f2f2;
     padding: 20px;
     border:1px solid;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 15px;
 }
 
 input[type=text],[type=date], select, textarea {
@@ -199,6 +208,8 @@ input[type=text],[type=date], select, textarea {
     padding: 10px;
     background-color: blanchedalmond;
     border-radius: 4px;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 15px;
   }
 
 

@@ -206,7 +206,6 @@ function load_tasks()
 function afegirButtons(code){
   var btn_modificar = document.createElement('button');
   btn_modificar.type = 'button';
-  btn_modificar.id = "modificar";
   btn_modificar.innerHTML = '<span class="material-icons">edit</span>';
   btn_modificar.onclick = function() {
     let t =  tasks.find(e => e.codi == code);
@@ -222,7 +221,6 @@ function afegirButtons(code){
 
     var btn_delete = document.createElement('button');
     btn_delete.type = 'button';
-    btn_delete.id = "eliminar";
     btn_delete.innerHTML = '<span class="material-icons">delete</span>';
     btn_delete.onclick = function(e) {
       document.getElementById("delete_box").style.display = "block";
