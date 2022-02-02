@@ -66,8 +66,7 @@ export class Db{
 async addTask(task1)
 {
 // Firestore data converter
-
-    try{
+   try{
       const ref = doc(this.db, "tasques", task1.codi.toString()).withConverter(this.taskConverter);
       await setDoc(ref, task1);
       }catch(error)
@@ -75,13 +74,12 @@ async addTask(task1)
         console.log(error);
       }
     }
-
-    // Recuperar tasques 
+  // Recuperar tasques 
 async getTasks()
 {
   var tasques = [];
- const querySnapshot = await getDocs(collection(this.db, "tasques"))
- querySnapshot.forEach((doc1) => {
+  const querySnapshot = await getDocs(collection(this.db, "tasques"))
+  querySnapshot.forEach((doc1) => {
     let t = new Tasca();
     t.nom = doc1.data().nom;
     t.codi = doc1.data().codi;
@@ -91,24 +89,20 @@ async getTasks()
     t.descripcio = doc1.data().descripcio;
     t.estat = doc1.data().estat;
     t.prioritat = doc1.data().prioritat;
-
     tasques.push(t);
-
 });
-
   return tasques;
 }
 
 // actualitzar una tasca
 async updateTask(task_id, status){
-
-  try{
-
-  const taskRef = doc(this.db, "tasques", task_id.toString());
-  await updateDoc(taskRef,{
+  try
+  {
+    const taskRef = doc(this.db, "tasques", task_id.toString());
+    await updateDoc(taskRef,{
     estat: status
-  });
-}
+    });
+  }
   catch(error)
       {
         console.log(error);
@@ -116,33 +110,27 @@ async updateTask(task_id, status){
 }
 
 // Eliminar una tasca
-async deleteTask(task_id){
-
-  await deleteDoc(doc(this.db, "tasques", task_id.toString()));
-}
+  async deleteTask(task_id){
+    await deleteDoc(doc(this.db, "tasques", task_id.toString()));
+  }
 
 ////////////////////// Responsables //////////////////////////////////////////
-async addResp(resp1)
-{
-
+  async addResp(resp1)
+  {
     try{
-
       const ref = doc(this.db, "responsables", resp1.codi.toString()).withConverter(this.RespConverter);
-      await setDoc(ref, resp1);
-      
-      console.log("done");
-      
-      }catch(error)
-      {
-        console.log(error);
-      }
+      await setDoc(ref, resp1);  
+      console.log("done");   
+    }catch(error)
+    {
+      console.log(error);
     }
+  }
 
     
   async getResp()
   {
-     var responsables = [];
-      
+     var responsables = []; 
      const querySnapshot = await getDocs(collection(this.db, "responsables"))
      querySnapshot.forEach((doc1) => {
         let t = new Responsable();
@@ -153,12 +141,10 @@ async addResp(resp1)
         responsables.push(t);
     
     });
-    
     return responsables;
   }
-
-  async deleteResp(resp_id){
-
+  async deleteResp(resp_id)
+  {
     await deleteDoc(doc(this.db, "responsables", resp_id.toString()));
   }
 }
